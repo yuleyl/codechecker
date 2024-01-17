@@ -248,7 +248,7 @@ def add_arguments_to_parser(parser):
     parser.add_argument('-t', '--type', '--output-format',
                         dest="output_format",
                         required=False,
-                        choices=['plist'],
+                        choices=['plist', 'sarif'],
                         default='plist',
                         help="Specify the format the analysis results should "
                              "use.")

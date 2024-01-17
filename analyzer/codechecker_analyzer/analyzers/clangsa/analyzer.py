@@ -373,11 +373,10 @@ class ClangSA(analyzer_base.SourceAnalyzer):
                                      "-Xclang", "-load",
                                      "-Xclang", plugin])
 
-            analyzer_mode = 'plist-multi-file'
             analyzer_cmd.extend(['-Xclang',
                                  '-analyzer-opt-analyze-headers',
                                  '-Xclang',
-                                 '-analyzer-output=' + analyzer_mode,
+                                 '-analyzer-output=' + config.output_format,
                                  '-o', analyzer_output_file])
 
             # Expand macros in plist output on the bug path.
@@ -597,7 +596,8 @@ class ClangSA(analyzer_base.SourceAnalyzer):
         See base class for docs.
         """
         res_handler = ClangSAResultHandler(buildaction, report_output,
-                                           self.config_handler.report_hash)
+                                           self.config_handler.report_hash,
+                                           result_file_extension='.' + self.config_handler.output_format)
 
         res_handler.skiplist_handler = skiplist_handler
 
@@ -618,6 +618,8 @@ class ClangSA(analyzer_base.SourceAnalyzer):
 
         handler.enable_z3_refutation = 'enable_z3_refutation' in args and \
             args.enable_z3_refutation == 'on'
+
+        handler.output_format = args.output_format if 'output_format' in args else 'plist'
 
         if 'ctu_phases' in args:
             handler.ctu_dir = os.path.join(args.output_path,

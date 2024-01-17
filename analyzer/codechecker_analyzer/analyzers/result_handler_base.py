@@ -48,7 +48,7 @@ class ResultHandler(metaclass=ABCMeta):
     """
     # Handle the output stdout, or plist or both for an analyzer.
 
-    def __init__(self, action, workspace, report_hash_type=None):
+    def __init__(self, action, workspace, report_hash_type=None, result_file_extension=None):
         """
         Put the temporary files for the workspace.
         """
@@ -64,6 +64,7 @@ class ResultHandler(metaclass=ABCMeta):
         self.buildaction_hash = ''
         self.__buildaction = action
 
+        self.__result_file_extension = result_file_extension if result_file_extension else '.plist'
         self.__result_file = None
         self.__fixit_file = None
 
@@ -152,7 +153,7 @@ class ResultHandler(metaclass=ABCMeta):
         if not self.__result_file:
             self.__result_file = os.path.join(
                 self.__workspace,
-                self.analyzer_action_str + '.plist')
+                self.analyzer_action_str + self.__result_file_extension)
 
         return self.__result_file
 
