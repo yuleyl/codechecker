@@ -70,7 +70,7 @@ def build_stat_coll_cmd(action, config, source):
     if not has_flag('--target', cmd) and action.target != "":
         cmd.append(f"--target={action.target}")
 
-    if not has_flag('-std', cmd) and not has_flag('--std', cmd):
+    if not has_flag('-std', cmd) and not has_flag('--std', cmd) and not source.endswith('.m'):
         cmd.append(action.compiler_standard)
 
     cmd.extend(prepend_all('-isystem', action.compiler_includes))

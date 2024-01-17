@@ -465,7 +465,8 @@ class ClangSA(analyzer_base.SourceAnalyzer):
                 analyzer_cmd.extend(["-arch", self.buildaction.arch])
 
             if not has_flag('-std', analyzer_cmd) and \
-                    self.buildaction.compiler_standard != "":
+                    self.buildaction.compiler_standard != "" and \
+                    not self.source_file.endswith('.m'):
                 analyzer_cmd.append(self.buildaction.compiler_standard)
 
             analyzer_cmd.extend(config.analyzer_extra_arguments)

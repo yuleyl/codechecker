@@ -41,7 +41,7 @@ def get_compile_command(action, config, source='', output=''):
     if source:
         cmd.append(source)
 
-    if not has_flag('-std', cmd) and not has_flag('--std', cmd):
+    if not has_flag('-std', cmd) and not has_flag('--std', cmd) and not source.endswith('.m'):
         cmd.append(action.compiler_standard)
     return cmd
 

@@ -970,8 +970,8 @@ def parse_options(compilation_db_entry,
     details['compiler'] =\
         determine_compiler(gcc_command,
                            ImplicitCompilerInfo.is_executable_compiler)
-    if '++' in os.path.basename(details['compiler']):
-        details['lang'] = 'c++'
+    #if '++' in os.path.basename(details['compiler']):
+    #    details['lang'] = 'c++'
 
     # Source files are skipped first so they are not collected
     # with the other compiler flags together. Source file is handled
