@@ -44,6 +44,7 @@ class ClangSAResultHandler(ResultHandler):
         Generate analyzer result output file which can be parsed and stored
         into the database.
         """
+        """
         if os.path.exists(self.analyzer_result_file):
             reports = report_file.get_reports(
                 self.analyzer_result_file, self.checker_labels,
@@ -67,3 +68,5 @@ class ClangSAResultHandler(ResultHandler):
             report_file.create(
                 self.analyzer_result_file, reports, self.checker_labels,
                 self.analyzer_info)
+        """
+        pass
