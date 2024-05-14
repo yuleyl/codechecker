@@ -79,7 +79,6 @@ class Parser(BaseParser):
 
                 thread_flow_info = self._process_code_flows(
                     result, rule_id, rules)
-                severity = self.get_severity(rule_id)
                 for location in result.get("locations", []):
                     # TODO: We don't really support non-local analyses, so we
                     # only parse physical locations here.
@@ -93,8 +92,7 @@ class Parser(BaseParser):
 
                     report = Report(
                         file, rng.start_line, rng.start_col,
-                        message, rule_id,
-                        severity=severity,
+                        message, rule_id,  # TODO: Add severity.
                         analyzer_result_file_path=result_file_path,
                         bug_path_events=bug_path_events,
                         bug_path_positions=thread_flow_info.bug_path_positions,
@@ -316,9 +314,9 @@ class Parser(BaseParser):
             results.append(self._create_result(report))
 
         return {
-            "version": "2.1.0",
+            "version": "2.2.0",
             "$schema": "https://raw.githubusercontent.com/oasis-tcs/"
-                       "sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+                       "sarif-spec/main/sarif-2.2/schema/sarif-2-2.schema.json",
             "runs": [{
                 "tool": {
                     "driver": {
@@ -333,11 +331,13 @@ class Parser(BaseParser):
 
     def _create_result(self, report: Report) -> Dict:
         """ Create result dictionary from the given report. """
+        severity = self.get_severity(report.checker_name)
         result = {
             "ruleId": report.checker_name,
             "message": {
                 "text": report.message
             },
+            "level": severity,
             "locations": [{
                 "physicalLocation": {
                     "artifactLocation": {
